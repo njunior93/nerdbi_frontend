@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, startTransition } from 'react';
 import { useSession, useSessionMessages } from '../hooks/useSession';
 import { useAuth } from '../hooks/useAuth';
 import { useChat } from '../hooks/useChat';
@@ -80,14 +80,13 @@ export const Chat = () => {
   const messages = messagesQuery.data?.messages ?? [];
   const activeSession = sessions.find((s) => s.id === activeSessionId);
 
-  // Auto-select most recent session (or create one if empty)
   useEffect(() => {
     if (sessionsQuery.isLoading) return;
     if (initialized.current) return;
     initialized.current = true;
 
     if (sessions.length > 0) {
-      setActiveSessionId(sessions[0].id);
+      startTransition(() => setActiveSessionId(sessions[0].id));
     } else {
       createMutation.mutate('Nova conversa', {
         onSuccess: (session) => setActiveSessionId(session.id),
@@ -96,12 +95,10 @@ export const Chat = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionsQuery.isLoading]);
 
-  // Scroll to bottom when messages change or loading indicator appears
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages.length, sendMutation.isPending]);
 
-  // Reset send error when switching sessions
   useEffect(() => {
     sendMutation.reset();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,10 +159,7 @@ export const Chat = () => {
         onLogout={logout}
       />
 
-      {/* Main chat area */}
       <main className="flex flex-col flex-1 min-w-0 overflow-hidden">
-
-        {/* Mobile header */}
         <div className="flex items-center gap-3 px-4 py-3 border-b border-outline sm:hidden">
           <button
             type="button"
@@ -180,7 +174,6 @@ export const Chat = () => {
           </span>
         </div>
 
-        {/* Messages area */}
         <div className="flex-1 overflow-y-auto px-4 py-5 flex flex-col gap-3">
           {messagesQuery.isLoading && activeSessionId ? (
             <div className="flex justify-center py-8">
@@ -196,14 +189,12 @@ export const Chat = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Send error */}
         {sendMutation.isError && (
           <div className="mx-4 mb-2 px-3.5 py-2 rounded-lg border border-red-300/50 bg-red-500/[0.08] text-xs text-red-500" role="alert">
             Não foi possível enviar a mensagem. Tente novamente.
           </div>
         )}
 
-        {/* Input footer */}
         <div className="border-t border-outline px-4 py-4">
           <div
             className={`flex items-end gap-2 rounded-2xl border px-4 py-2 transition-colors ${
@@ -240,5 +231,3 @@ export const Chat = () => {
     </div>
   );
 };
-
-export default Chat;

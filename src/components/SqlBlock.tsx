@@ -4,7 +4,11 @@ interface SqlBlockProps {
   sql: string;
 }
 
-const ChevronIcon = ({ isOpen }: { isOpen: boolean }) => (
+interface ChevronIconProps {
+  isOpen: boolean;
+}
+
+const ChevronIcon = ({ isOpen }: ChevronIconProps) => (
   <svg
     width="14"
     height="14"
@@ -47,5 +51,3 @@ export const SqlBlock = ({ sql }: SqlBlockProps) => {
     </div>
   );
 };
-
-export default SqlBlock;

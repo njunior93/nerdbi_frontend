@@ -6,10 +6,10 @@ import { useConnection } from '../hooks/useConnection';
 const connectSchema = z.object({
   connectionString: z
     .string()
-    .min(1, 'Cole a connection string do seu banco')
+    .min(1, { message: 'Cole a connection string do seu banco' })
     .refine(
       (v) => v.startsWith('postgres://') || v.startsWith('postgresql://'),
-      'A connection string deve começar com postgresql:// ou postgres://'
+      { message: 'A connection string deve começar com postgresql:// ou postgres://' }
     ),
 });
 
@@ -70,14 +70,11 @@ export const Connect = () => {
   return (
     <div className="flex flex-1 items-center justify-center px-4 py-6">
       <div className="w-full max-w-md bg-canvas border border-outline rounded-2xl p-10 max-sm:p-7 shadow-card text-left">
-
-        {/* Logo */}
         <div className="flex items-center gap-2.5 mb-8">
           <NerdBIIcon />
           <span className="text-xl font-bold text-heading tracking-tight">NerdBI</span>
         </div>
 
-        {/* Heading */}
         <h1 className="text-2xl font-semibold text-heading tracking-tight m-0 mb-2">
           Conectar seu banco de dados
         </h1>
@@ -87,8 +84,6 @@ export const Connect = () => {
         </p>
 
         <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)} noValidate>
-
-          {/* Connection String */}
           <div className="flex flex-col gap-1.5">
             <label htmlFor="connectionString" className="text-sm font-medium text-heading">
               Connection string
@@ -115,7 +110,6 @@ export const Connect = () => {
             )}
           </div>
 
-          {/* Feedback de teste */}
           {testMutation.isSuccess && (
             <div
               className="px-3.5 py-2.5 rounded-lg border border-green-300/50 bg-green-500/[0.08] text-sm text-green-600"
@@ -133,7 +127,6 @@ export const Connect = () => {
             </div>
           )}
 
-          {/* Feedback de save */}
           {saveMutation.isError && (
             <div
               className="px-3.5 py-2.5 rounded-lg border border-red-300/50 bg-red-500/[0.08] text-sm text-red-500"
@@ -143,7 +136,6 @@ export const Connect = () => {
             </div>
           )}
 
-          {/* Ações */}
           <div className="flex flex-col sm:flex-row gap-3 mt-1">
             <button
               type="button"
@@ -166,5 +158,3 @@ export const Connect = () => {
     </div>
   );
 };
-
-export default Connect;

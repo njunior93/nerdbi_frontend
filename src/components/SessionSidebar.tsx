@@ -11,6 +11,8 @@ interface SessionSidebarProps {
   onLogout: () => void;
 }
 
+type SidebarContentProps = Omit<SessionSidebarProps, 'isOpen' | 'onClose'>;
+
 const NerdBIIcon = () => (
   <svg width="28" height="28" viewBox="0 0 36 36" fill="none" aria-hidden="true">
     <rect width="36" height="36" rx="10" fill="var(--accent-bg)" />
@@ -38,19 +40,6 @@ const PlusIcon = () => (
   </svg>
 );
 
-const formatDate = (dateStr: string): string => {
-  const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return '';
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  if (diffDays === 0) return 'hoje';
-  if (diffDays === 1) return 'ontem';
-  if (diffDays < 7) return `${diffDays} dias atrás`;
-  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-};
-
 const LogoutIcon = () => (
   <svg
     width="15"
@@ -69,6 +58,19 @@ const LogoutIcon = () => (
   </svg>
 );
 
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return '';
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return 'hoje';
+  if (diffDays === 1) return 'ontem';
+  if (diffDays < 7) return `${diffDays} dias atrás`;
+  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+};
+
 const SidebarContent = ({
   sessions,
   activeSessionId,
@@ -76,15 +78,13 @@ const SidebarContent = ({
   onSelectSession,
   onNewSession,
   onLogout,
-}: Omit<SessionSidebarProps, 'isOpen' | 'onClose'>) => (
+}: SidebarContentProps) => (
   <>
-    {/* Header */}
     <div className="flex items-center gap-2 px-4 py-4 border-b border-outline">
       <NerdBIIcon />
       <span className="text-sm font-medium text-heading">NerdBI</span>
     </div>
 
-    {/* Nova sessão */}
     <div className="px-3 py-3">
       <button
         type="button"
@@ -97,7 +97,6 @@ const SidebarContent = ({
       </button>
     </div>
 
-    {/* Lista de sessões */}
     <nav aria-label="Sessões de conversa" className="flex-1 overflow-y-auto px-3 pb-3 flex flex-col gap-0.5">
       {sessions.length === 0 && !isCreating && (
         <p className="text-xs text-body px-3 py-2">Nenhuma sessão ainda.</p>
@@ -123,7 +122,6 @@ const SidebarContent = ({
       })}
     </nav>
 
-    {/* Logout */}
     <div className="px-3 py-3 border-t border-outline">
       <button
         type="button"
@@ -149,7 +147,6 @@ export const SessionSidebar = ({
 }: SessionSidebarProps) => {
   return (
     <>
-      {/* Mobile overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/30 sm:hidden"
@@ -158,7 +155,6 @@ export const SessionSidebar = ({
         />
       )}
 
-      {/* Sidebar panel */}
       <aside
         className={`
           fixed inset-y-0 left-0 z-40 w-64 flex flex-col bg-[var(--code-bg)] border-r border-outline
@@ -180,5 +176,3 @@ export const SessionSidebar = ({
     </>
   );
 };
-
-export default SessionSidebar;

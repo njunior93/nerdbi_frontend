@@ -1,10 +1,14 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login';
-import Connect from './pages/Connect';
-import Chat from './pages/Chat';
+import { Login } from './pages/Login';
+import { Connect } from './pages/Connect';
+import { Chat } from './pages/Chat';
 import { TOKEN_KEY } from './services/api';
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const token = localStorage.getItem(TOKEN_KEY);
   if (!token) {
     return <Navigate to="/" replace />;
@@ -12,7 +16,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-const App = () => {
+export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -37,5 +41,3 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
-export default App;

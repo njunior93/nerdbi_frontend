@@ -33,10 +33,8 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
         <div className="text-sm text-heading leading-relaxed prose prose-sm max-w-none">
           <ReactMarkdown>{message.content}</ReactMarkdown>
         </div>
-{message.sql && <SqlBlock sql={message.sql} />}
+        {message.sql && <SqlBlock sql={message.sql} />}
       </div>
     </div>
   );
 };
-
-export default ChatMessage;

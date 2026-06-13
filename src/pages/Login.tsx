@@ -5,8 +5,8 @@ import { z } from 'zod';
 import { useAuth } from '../hooks/useAuth';
 
 const authSchema = z.object({
-  email: z.string().email('Digite um e-mail válido'),
-  password: z.string().min(1, 'Senha é obrigatória'),
+  email: z.string().email({ message: 'Digite um e-mail válido' }),
+  password: z.string().min(1, { message: 'Senha é obrigatória' }),
 });
 
 type AuthFormData = z.infer<typeof authSchema>;
@@ -107,14 +107,11 @@ export const Login = () => {
   return (
     <div className="flex flex-1 items-center justify-center px-4 py-6">
       <div className="w-full max-w-md bg-canvas border border-outline rounded-2xl p-10 max-sm:p-7 shadow-card text-left">
-
-        {/* Logo */}
         <div className="flex items-center gap-2.5 mb-8">
           <NerdBIIcon />
           <span className="text-xl font-bold text-heading tracking-tight">NerdBI</span>
         </div>
 
-        {/* Heading */}
         <h1 className="text-2xl font-semibold text-heading tracking-tight m-0 mb-2">
           {isRegistering ? 'Criar conta' : 'Bem-vindo de volta'}
         </h1>
@@ -125,8 +122,6 @@ export const Login = () => {
         </p>
 
         <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)} noValidate>
-
-          {/* E-mail */}
           <div className="flex flex-col gap-1.5">
             <label htmlFor="email" className="text-sm font-medium text-heading">
               E-mail
@@ -146,7 +141,6 @@ export const Login = () => {
             )}
           </div>
 
-          {/* Senha */}
           <div className="flex flex-col gap-1.5">
             <label htmlFor="password" className="text-sm font-medium text-heading">
               Senha
@@ -176,7 +170,6 @@ export const Login = () => {
             )}
           </div>
 
-          {/* Erro da API */}
           {activeMutation.isError && (
             <div
               className="px-3.5 py-2.5 rounded-lg border border-red-300/50 bg-red-500/[0.08] text-sm text-red-500"
@@ -186,7 +179,6 @@ export const Login = () => {
             </div>
           )}
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={isLoading}
@@ -202,7 +194,6 @@ export const Login = () => {
           </button>
         </form>
 
-        {/* Alternar modo */}
         <p className="mt-6 text-center text-sm text-body">
           {isRegistering ? 'Já tem conta? ' : 'Não tem conta? '}
           <button
@@ -217,5 +208,3 @@ export const Login = () => {
     </div>
   );
 };
-
-export default Login;
