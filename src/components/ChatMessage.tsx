@@ -1,6 +1,6 @@
 import type { MessageResponseDto } from '../types/api.types';
-import { ChartBlock } from './ChartBlock';
 import { SqlBlock } from './SqlBlock';
+import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
   message: MessageResponseDto;
@@ -30,11 +30,10 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
         className="max-w-[90%] px-4 py-3 bg-canvas border border-outline"
         style={{ borderRadius: '12px 12px 12px 2px' }}
       >
-        <p className="text-sm text-heading whitespace-pre-wrap leading-relaxed">
-          {message.content}
-        </p>
-        {message.chartConfig && <ChartBlock config={message.chartConfig} />}
-        {message.sql && <SqlBlock sql={message.sql} />}
+        <div className="text-sm text-heading leading-relaxed prose prose-sm max-w-none">
+          <ReactMarkdown>{message.content}</ReactMarkdown>
+        </div>
+{message.sql && <SqlBlock sql={message.sql} />}
       </div>
     </div>
   );

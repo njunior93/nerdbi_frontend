@@ -22,7 +22,6 @@ export const useChat = (sessionId: string | null) => {
         role: 'user',
         content: question,
         sql: null,
-        chartConfig: null,
         createdAt: new Date().toISOString(),
       };
 

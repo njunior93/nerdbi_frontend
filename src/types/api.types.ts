@@ -1,19 +1,8 @@
-export type ChartType = 'bar' | 'line' | 'pie';
-
-export interface ChartConfig {
-  chartType: ChartType;
-  title: string;
-  xKey: string;
-  yKey: string;
-  data: Record<string, unknown>[];
-}
-
 export interface MessageResponseDto {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   sql: string | null;
-  chartConfig: ChartConfig | null;
   createdAt: string;
 }
 
