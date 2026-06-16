@@ -103,7 +103,7 @@ export const Connect = () => {
             <span id="connectionString-hint" className="text-xs text-body">
               Inclua usuário, senha, host, porta e nome do banco de dados.
             </span>
-            <span id="connectionString-hint-pooling" className="text-xs text-[#9b9b9b]">
+            <span id="connectionString-hint-pooling" className="text-xs text-body">
               Use connection pooling em modo transaction, com a porta 6543.
             </span>
             {errors.connectionString && (
@@ -127,7 +127,7 @@ export const Connect = () => {
               role="alert"
             >
               {getErrorMessage(testMutation.error)}
-              <p className="mt-1 text-xs text-[#9b9b9b]">
+              <p className="mt-1 text-xs text-body">
                 Verifique se a string usa a porta 6543 (connection pooling em modo transaction).
               </p>
             </div>
@@ -139,7 +139,7 @@ export const Connect = () => {
               role="alert"
             >
               {getErrorMessage(saveMutation.error)}
-              <p className="mt-1 text-xs text-[#9b9b9b]">
+              <p className="mt-1 text-xs text-body">
                 Verifique se a string usa a porta 6543 (connection pooling em modo transaction).
               </p>
             </div>
