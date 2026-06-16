@@ -146,6 +146,13 @@ export const Chat = () => {
 
   const isInputDisabled = sendMutation.isPending || !activeSessionId;
 
+  const lastUserQuestion = [...messages].reverse().find((m) => m.role === 'user')?.content ?? '';
+
+  const handleRetry = () => {
+    if (!lastUserQuestion || sendMutation.isPending) return;
+    sendMutation.mutate(lastUserQuestion);
+  };
+
   return (
     <div className="flex flex-1 overflow-hidden">
       <SessionSidebar
@@ -182,7 +189,7 @@ export const Chat = () => {
           ) : messages.length === 0 && !sendMutation.isPending ? (
             <EmptyState />
           ) : (
-            messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)
+            messages.map((msg) => <ChatMessage key={msg.id} message={msg} onRetry={handleRetry} />)
           )}
 
           {sendMutation.isPending && <TypingIndicator />}

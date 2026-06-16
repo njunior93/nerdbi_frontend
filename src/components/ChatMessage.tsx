@@ -1,13 +1,15 @@
 import type { MessageResponseDto } from '../types/api.types';
 import { SqlBlock } from './SqlBlock';
 import { AgentErrorMessage } from './AgentErrorMessage';
+import { RateLimitMessage } from './RateLimitMessage';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
   message: MessageResponseDto;
+  onRetry?: () => void;
 }
 
-export const ChatMessage = ({ message }: ChatMessageProps) => {
+export const ChatMessage = ({ message, onRetry }: ChatMessageProps) => {
   if (message.role === 'user') {
     return (
       <div className="flex justify-end">
@@ -23,6 +25,10 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
         </div>
       </div>
     );
+  }
+
+  if (message.isRateLimited) {
+    return <RateLimitMessage onRetry={onRetry ?? (() => {})} />;
   }
 
   const isError = message.isError ?? (

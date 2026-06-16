@@ -5,6 +5,7 @@ export interface MessageResponseDto {
   sql: string | null;
   createdAt: string;
   isError?: boolean;
+  isRateLimited?: boolean;
 }
 
 export interface SessionResponseDto {
