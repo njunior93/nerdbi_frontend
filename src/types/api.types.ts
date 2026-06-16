@@ -4,6 +4,7 @@ export interface MessageResponseDto {
   content: string;
   sql: string | null;
   createdAt: string;
+  isError?: boolean;
 }
 
 export interface SessionResponseDto {

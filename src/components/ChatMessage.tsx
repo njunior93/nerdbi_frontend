@@ -1,5 +1,6 @@
 import type { MessageResponseDto } from '../types/api.types';
 import { SqlBlock } from './SqlBlock';
+import { AgentErrorMessage } from './AgentErrorMessage';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageProps {
@@ -22,6 +23,16 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
         </div>
       </div>
     );
+  }
+
+  const isError = message.isError ?? (
+    message.content.toLowerCase().includes('não consegui') ||
+    message.content.toLowerCase().includes('tente reformular') ||
+    message.content.toLowerCase().includes('não foi possível gerar')
+  );
+
+  if (isError) {
+    return <AgentErrorMessage content={message.content} />;
   }
 
   return (

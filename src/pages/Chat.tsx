@@ -226,6 +226,9 @@ export const Chat = () => {
           <p className="text-xs text-body mt-2 text-center">
             Enter para enviar · Shift+Enter para nova linha
           </p>
+          <p className="text-center mt-1.5" style={{ fontSize: '12px', color: '#6b6b6b', fontWeight: 400 }}>
+            Usando IA gratuita (Llama 3.3 via Groq) · Respostas podem variar — se algo parecer estranho, reformule ou repita a pergunta.
+          </p>
         </div>
       </main>
     </div>
