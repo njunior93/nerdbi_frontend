@@ -90,8 +90,8 @@ export const Connect = () => {
             </label>
             <textarea
               id="connectionString"
-              placeholder="postgresql://usuario:senha@host:5432/banco"
-              aria-describedby="connectionString-hint"
+              placeholder="postgresql://usuario:senha@host:6543/banco"
+              aria-describedby="connectionString-hint connectionString-hint-pooling"
               className={errors.connectionString ? textareaError : textareaNormal}
               {...register('connectionString', {
                 onChange: () => {
@@ -102,6 +102,9 @@ export const Connect = () => {
             />
             <span id="connectionString-hint" className="text-xs text-body">
               Inclua usuário, senha, host, porta e nome do banco de dados.
+            </span>
+            <span id="connectionString-hint-pooling" className="text-xs text-[#9b9b9b]">
+              Use connection pooling em modo transaction, com a porta 6543.
             </span>
             {errors.connectionString && (
               <span className="text-xs text-red-500" role="alert">
@@ -124,6 +127,9 @@ export const Connect = () => {
               role="alert"
             >
               {getErrorMessage(testMutation.error)}
+              <p className="mt-1 text-xs text-[#9b9b9b]">
+                Verifique se a string usa a porta 6543 (connection pooling em modo transaction).
+              </p>
             </div>
           )}
 
@@ -133,6 +139,9 @@ export const Connect = () => {
               role="alert"
             >
               {getErrorMessage(saveMutation.error)}
+              <p className="mt-1 text-xs text-[#9b9b9b]">
+                Verifique se a string usa a porta 6543 (connection pooling em modo transaction).
+              </p>
             </div>
           )}
 
